@@ -13,7 +13,7 @@ CREATE DATABASE database_name;
 CREATE TABLE table_name (
     column1 datatype1,
     column2 datatype2,
-    ...
+    ..
 );
 
 ```
@@ -198,6 +198,27 @@ SELECT DISTINCT column_name FROM table_name;
 SELECT employee_name, salary 
 FROM employees 
 WHERE salary > (SELECT AVG(salary) FROM employees);
+
+/////////////////by declaring the avg salary//////////////////
+DECLARE @avgSalary DECIMAL(10, 2);
+
+SELECT @avgSalary = AVG(salary)
+FROM employees;
+
+SELECT *
+FROM employees
+WHERE salary > @avgSalary;
+
+////////////////////////by using cross join/////////////////////
+WITH AvgSalaryCTE AS (
+    SELECT AVG(salary) AS avg_salary
+    FROM employees
+)
+SELECT e.*
+FROM employees e
+CROSS JOIN AvgSalaryCTE
+WHERE e.salary > AvgSalaryCTE.avg_salary;
+
 
 ```
 - **What is a stored procedure in MySQL?**
